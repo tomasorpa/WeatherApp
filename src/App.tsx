@@ -1,5 +1,4 @@
 import "./App.css";
-import { Button } from "./components/ui/button";
 import { Layout } from "./components/Layout";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "./components/context/theme-provider";
@@ -8,7 +7,16 @@ import { CityPage } from "./pages/CityPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 function App() {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: (5 * 60) ^ 1000,
+        gcTime: 10 * 60 * 1000,
+        retry: false,
+        refetchOnWindowFocus: false,
+      },
+    },
+  });
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
@@ -18,8 +26,6 @@ function App() {
               <Route path="/" element={<WeatherDashboard />} />
               <Route path="/city/:city" element={<CityPage />} />
             </Routes>
-
-           
           </Layout>
         </ThemeProvider>
       </BrowserRouter>
