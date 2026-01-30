@@ -1,48 +1,47 @@
-
 /* =======================
    TIPOS BASE (REUTILIZABLES)
 ======================= */
 
 export interface Coord {
-  lat: number
-  lon: number
+  lat: number;
+  lon: number;
 }
 
 export interface Weather {
-  id: number
-  main: string
-  description: string
-  icon: string
+  id: number;
+  main: string;
+  description: string;
+  icon: string;
 }
 
 export interface Main {
-  temp: number
-  feels_like: number
-  temp_min: number
-  temp_max: number
-  pressure: number
-  humidity: number
-  sea_level?: number
-  grnd_level?: number
-  temp_kf?: number
+  temp: number;
+  feels_like: number;
+  temp_min: number;
+  temp_max: number;
+  pressure: number;
+  humidity: number;
+  sea_level?: number;
+  grnd_level?: number;
+  temp_kf?: number;
 }
 
 export interface Wind {
-  speed: number
-  deg: number
-  gust?: number
+  speed: number;
+  deg: number;
+  gust?: number;
 }
 
 export interface Clouds {
-  all: number
+  all: number;
 }
 
 export interface Rain1h {
-  "1h": number
+  "1h": number;
 }
 
 export interface Rain3h {
-  "3h": number
+  "3h": number;
 }
 
 /* =======================
@@ -50,28 +49,28 @@ export interface Rain3h {
 ======================= */
 
 export interface CurrentWeatherResponse {
-  coord: Coord
-  weather: Weather[]
-  base: string
-  main: Main
-  visibility: number
-  wind: Wind
-  rain?: Rain1h
-  clouds: Clouds
-  dt: number
-  sys: CurrentSys
-  timezone: number
-  id: number
-  name: string
-  cod: number
+  coord: Coord;
+  weather: Weather[];
+  base: string;
+  main: Main;
+  visibility: number;
+  wind: Wind;
+  rain?: Rain1h;
+  clouds: Clouds;
+  dt: number;
+  sys: CurrentSys;
+  timezone: number;
+  id: number;
+  name: string;
+  cod: number;
 }
 
 export interface CurrentSys {
-  type: number
-  id: number
-  country: string
-  sunrise: number
-  sunset: number
+  type: number;
+  id: number;
+  country: string;
+  sunrise: number;
+  sunset: number;
 }
 
 /* =======================
@@ -79,40 +78,44 @@ export interface CurrentSys {
 ======================= */
 
 export interface ForecastResponse {
-  cod: string
-  message: number
-  cnt: number
-  list: ForecastItem[]
-  city: City
+  cod: string;
+  message: number;
+  cnt: number;
+  list: ForecastItem[];
+  city: City;
 }
 
 export interface ForecastItem {
-  dt: number
-  main: Main
-  weather: Weather[]
-  clouds: Clouds
-  wind: Wind
-  visibility: number
-  pop: number
-  rain?: Rain3h
-  sys: ForecastSys
-  dt_txt: string
+  dt: number;
+  main: Main;
+  weather: Weather[];
+  clouds: Clouds;
+  wind: Wind;
+  visibility: number;
+  pop: number;
+  rain?: Rain3h;
+  sys: ForecastSys;
+  dt_txt: string;
 }
 
 export interface ForecastSys {
-  pod: "d" | "n"
+  pod: "d" | "n";
 }
 
 export interface City {
-  id: number
-  name: string
-  coord: Coord
-  country: string
-  population: number
-  timezone: number
-  sunrise: number
-  sunset: number
+  id: number;
+  name: string;
+  coord: Coord;
+  country: string;
+  population: number;
+  timezone: number;
+  sunrise: number;
+  sunset: number;
 }
+
+/* =======================
+   GEOCODING (REVERSE & DIRECT)
+======================= */
 
 export interface GeocodingResponse {
   name: string;
@@ -122,3 +125,6 @@ export interface GeocodingResponse {
   country: string;
   state?: string;
 }
+
+// ✅ Tipo agregado para el array que retorna la API
+export type GeocodingResponseArray = GeocodingResponse[];
