@@ -2,19 +2,27 @@ import { API_CONFIG } from "./config";
 import type {
   Coord,
   ForecastResponse,
-  GeocodingResponse,
   CurrentWeatherResponse,
+  GeocodingResponseArray,
 } from "./types";
 
-type WeatherEndpoint = "weather" | "forecast" | "reverse";
+type WeatherEndpoint = "weather" | "forecast";
+type GeoEndpoint = "reverse" | "direct";
 
 class WeatherApi {
-  private createUrl(endpoint: string, params: Record<string, string | number>) {
+  private createUrl(
+    baseUrl: string,
+    endpoint: string,
+    params: Record<string, string | number>,
+  ) {
     const searchParams = new URLSearchParams({
       appid: API_CONFIG.API_KEY,
-      ...params,
+      ...Object.fromEntries(
+        Object.entries(params).map(([k, v]) => [k, String(v)]),
+      ),
     });
-    return `${endpoint}?${searchParams.toString()}`;
+
+    return `${baseUrl}/${endpoint}?${searchParams.toString()}`;
   }
 
   private async fetchData<T>(url: string): Promise<T> {
@@ -22,35 +30,54 @@ class WeatherApi {
     if (!res.ok) {
       throw new Error(`Weather API Error: ${res.statusText}`);
     }
-    return (await res.json()) as T;
+    return res.json() as Promise<T>;
   }
 
-  async getData<T>(
-    { lat, lon }: Coord,
+  private async getWeatherData<T>(
     endpoint: WeatherEndpoint,
-    extraParams?: Record<string, string | number>
+    { lat, lon }: Coord,
+    extraParams?: Record<string, string | number>,
   ): Promise<T> {
-    const url = this.createUrl(`${API_CONFIG.BASE_URL}/${endpoint}`, {
-      lat:lat.toString(),
-      lon:lon.toString(),
-      unit: API_CONFIG.DEFAULT_PARAMS.units,
+    const url = this.createUrl(API_CONFIG.BASE_URL, endpoint, {
+      lat,
+      lon,
+      units: API_CONFIG.DEFAULT_PARAMS.units,
       ...extraParams,
     });
-    return this.fetchData(url) as T;
+
+    return this.fetchData<T>(url);
   }
 
-    
-  async getCurrentWeather({ lat, lon, }: Coord): Promise<CurrentWeatherResponse> {
-    return this.getData<CurrentWeatherResponse>({ lat, lon }, "weather");
+  private async getGeoData<T>(
+    endpoint: GeoEndpoint,
+    params: Record<string, string | number>,
+  ): Promise<T> {
+    const url = this.createUrl(API_CONFIG.GEO, endpoint, params);
+    return this.fetchData<T>(url);
   }
 
-  async getForecast({ lat, lon }: Coord): Promise<ForecastResponse> {
-    return this.getData<ForecastResponse>({ lat, lon }, "forecast");
+  
+
+  getCurrentWeather(coord: Coord) {
+    return this.getWeatherData<CurrentWeatherResponse>("weather", coord);
   }
 
-  async reverseGeocode({ lat, lon }: Coord) {
-    return this.getData<GeocodingResponse>({ lat, lon }, "reverse", {
+  getForecast(coord: Coord) {
+    return this.getWeatherData<ForecastResponse>("forecast", coord);
+  }
+
+  reverseGeocode({ lat, lon }: Coord) {
+    return this.getGeoData<GeocodingResponseArray>("reverse", {
+      lat,
+      lon,
       limit: 1,
+    });
+  }
+
+  searchLocations(query: string) {
+    return this.getGeoData<GeocodingResponseArray>("direct", {
+      q: query,
+      limit: 5,
     });
   }
 }

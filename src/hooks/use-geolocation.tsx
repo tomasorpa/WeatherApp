@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import type { Coord } from "../api/types";
 interface GeolocationState {
   coordinates: Coord | null;
@@ -63,7 +63,7 @@ export const useGeolocation = () => {
       },
       {
         enableHighAccuracy: true,
-        timeout: 500,
+        timeout: 2000,
         maximumAge: 0,
       }
     );
