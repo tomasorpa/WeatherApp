@@ -16,7 +16,7 @@ const WEATHER_KEYS = {
 
 export const useWeatherApi = (
   coordinates: Coord | null,
-  query: string | null,
+  query: string | null=null,
 ) => {
   const weather = useQuery<CurrentWeatherResponse>({
     queryKey: WEATHER_KEYS.weather(coordinates ?? { lat: 0, lon: 0 }),

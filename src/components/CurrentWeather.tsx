@@ -1,7 +1,6 @@
 import type {
   CurrentWeatherResponse,
   GeocodingResponseArray,
-  GeocodingResponse,
 } from "@/api/types";
 import { Card, CardContent } from "./ui/card";
 import {
@@ -12,8 +11,12 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { formatTemp } from "@/helpers/formatTemp";
-
-const WeatherLocation = ({ location }: { location?: GeocodingResponse }) => {
+type LocationDisplay = {
+  name: string;
+  country: string;
+  state?: string;
+};
+const WeatherLocation = ({ location }: { location?: LocationDisplay }) => {
   console.warn({ location });
   if (!location) {
     return (

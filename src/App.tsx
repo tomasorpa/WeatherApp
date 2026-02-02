@@ -2,7 +2,6 @@ import "./App.css";
 import { Layout } from "./components/Layout";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "./components/context/theme-provider";
-import { WeatherDashboard } from "./components/WeatherDashboard";
 import { CityPage } from "./pages/CityPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HomePage } from "./pages/HomePage";

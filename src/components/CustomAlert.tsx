@@ -1,9 +1,13 @@
-import React from "react";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { AlertCircleIcon, MapPin } from "lucide-react";
 import { Button } from "./ui/button";
-
-export const CustomAlert = ({ getLocation, title, subtitle, btnText }) => {
+type CustomAlertProps = {
+  getLocation: () => void;
+  title: string;
+  subtitle: string;
+  btnText: string;
+};
+export const CustomAlert = ({ getLocation, title, subtitle, btnText }:CustomAlertProps) => {
   //title
     //Please enable location access to see your local weather.
     //Location Required

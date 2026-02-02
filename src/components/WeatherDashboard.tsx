@@ -22,7 +22,6 @@ interface WeatherDashboardProps {
 export const WeatherDashboard = ({
   weather,
   forecast,
-  location,
   onRefresh,
   isRefreshing = false,
   showLocationHeader = true,

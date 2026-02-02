@@ -1,5 +1,4 @@
 import type { ForecastResponse } from "@/api/types";
-import React from "react";
 import { Card, CardHeader, CardTitle } from "./ui/card";
 import { CardContent } from "@/components/ui/card";
 import {

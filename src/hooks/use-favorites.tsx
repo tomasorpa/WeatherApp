@@ -1,6 +1,5 @@
 import { toast } from "sonner";
 import { useLocalStorage } from "./use-local-storage";
-import { data } from "react-router-dom";
 
 export interface FavoriteCity {
   id: string;
